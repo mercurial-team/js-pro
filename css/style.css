@@ -40,3 +40,31 @@
 	width:100%;
 	height:100%;
 }
+.cart_block{
+	position:relative;
+}
+.cart{
+	display:none;
+	flex-direction:column;
+	position:absolute;
+	background-color:white;
+	opacity:0.9;
+	z-index:10;
+	padding: 5px 5px;
+	margin-left: -20px;
+}
+
+.cart_block:hover .cart{
+	display:flex;
+}
+
+.cart_item{
+	display: flex;
+    align-items: center;
+}
+.cart_info{
+	margin-left: 20px;
+}
+.btn-cart{
+	margin-right: 80px;
+}
