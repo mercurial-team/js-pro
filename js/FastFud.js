@@ -1,8 +1,44 @@
 class Hamburger {
-	constructor(stuffing) {
-		this.size = stuffing.size;
-		this.option = stuffing.option;
-		this.adds = stuffing.Toppings;
+	constructor() {
+		this.size = '';
+		this.option = '';
+		this.adds = [];
+		this.priceAndCalories = {
+			size: {
+				small:{
+					price: 50,
+					calories: 20
+				},
+				large:{
+					price:100,
+					calories: 40
+				}
+			},
+			options: {
+				cheese: {
+					price: 10,
+					calories: 20
+				},
+				salad: {
+					price: 20,
+					calories: 5
+				},
+				Potato: {
+					price: 15,
+					calories: 10
+				}
+			},
+			adds:{
+				Mayonnaise: {
+					price: 20,
+					calories: 5
+				},
+				Seasoning: {
+					price: 15,
+					calories: 0
+				}
+			}
+		}
 		this.init();
 	}
 	init() {
@@ -43,20 +79,10 @@ class Hamburger {
 		
 	}
 	getSize() { // Узнать размер гамбургера 
-		
-		let burgerCategory = document.querySelector(".burgerCategory");
-		let options = burgerCategory.querySelectorAll("input[type=radio]");
-		for (let i = 0; i < options.length; i++) {
-			if (options[i].checked){
-				this.size = options[i].value;
-				console.log(this);
-			};
-		}
-		this.calculateCalories();
-		this.calculatePrice();
+		this.GetChar('.burgerCategory', 'input[type=radio]');
 	}
 	getStuffing() { // Узнать начинку гамбургера 
-		console.log("Начинка");
+		//this.GetChar(".burgerOptions", "input[type=radio]");
 		let burgerOptions = document.querySelector(".burgerOptions");
 		let options = burgerOptions.querySelectorAll("input[type=radio]");
 		for (let i = 0; i < options.length; i++) {
@@ -68,77 +94,46 @@ class Hamburger {
 		this.calculateCalories();
 		this.calculatePrice();
 	}
+	
+	GetChar(mainSelector, buttonSelector){
+		console.log(this);
+		let burgerCategory = document.querySelector(mainSelector);
+		let options = burgerCategory.querySelectorAll(buttonSelector);
+		for (let i = 0; i < options.length; i++) {
+			if (options[i].checked){
+				this.size = options[i].value;
+				console.log(this);
+			};
+		}
+		this.calculateCalories();
+		this.calculatePrice();
+	}
+	
 	calculatePrice() { // Узнать цену 
 		let price = 0;
-		switch(this.size){
-			case "large": 
-				price +=100;
-				break;
-			case "small": 
-				price +=50;
-				break;
-		}
-		switch(this.option){
-			case "cheese": 
-				price +=10;
-				break;
-			case "salad": 
-				price +=20;
-				break;
-			case "Potato": 
-				price +=15;
-				break;
-		}
-		for(let element of this.adds){
-			switch(element){
-				case "Mayonnaise":
-					price += 20;
-					break;
-				case "Seasoning":
-					price += 15;
-					break;
-			}
-		}
+		console.log(this.priceAndCalories);
+		//Считаем цену
+		if (this.size) price += this.priceAndCalories.size[this.size].price;
+		if (this.option) price += this.priceAndCalories.options[this.option].price;
+		for (let el of this.adds){
+			price += this.priceAndCalories.adds[el].price;
+		} 
+		
 		let price_block = document.querySelector(".price");
 		price_block.innerHTML = `Цена: ${price} руб`;
 	}
 	calculateCalories() { // Узнать калорийность 
 		let calories = 0;
-		switch(this.size){
-			case "large": 
-				calories +=40;
-				break;
-			case "small": 
-				calories +=20;
-				break;
-		}
-		switch(this.option){
-			case "cheese": 
-				calories +=20;
-				break;
-			case "salad": 
-				calories +=5;
-				break;
-			case "Potato": 
-				calories +=10;
-				break;
-		}
-		for(let element of this.adds){
-			switch(element){
-				case "Mayonnaise":
-					calories += 5;
-					break;
-			}
-		}
+		
+		if (this.size) calories += this.priceAndCalories.size[this.size].calories;
+		if (this.option) calories += this.priceAndCalories.options[this.option].calories;
+		for (let el of this.adds){
+			calories += this.priceAndCalories.adds[el].calories;
+		} 
+		
 		let calories_block = document.querySelector(".calorie");
 		calories_block.innerHTML = `Калории: ${calories}`;
 	}
 }
 
-let stuffing = {
-	size: '',
-	option: '',
-	Toppings: [],
-}
-
-let order = new Hamburger(stuffing);
+let order = new Hamburger();
