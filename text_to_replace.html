@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+	.text_compare{
+		display:flex;
+		justify-content: space-between;
+	}
+	.set{
+		display: flex;
+    	flex-direction: column;
+	}
+	.form_label{
+		padding: 10px 10px;
+	}
+	.tel{
+		margin-left: 40px;
+	}
+	.email{
+		margin-left: 53px;
+	}
+	.textarea{
+		height: 100px;
+    	width: 275px;
+	}
+	.error{
+		color: red;
+	}
+	.error_border{
+		border: 1px solid red;
+	}
+	.invisible{
+		display: none;
+	}
+	.send{
+		padding: 10px 10px;
+    	background-color: brown;
+    	text-decoration: none;
+    	color: white;
+    	margin-left: 20px;
+		margin-right: 20px;
+	}
+	.form{
+		display: flex;
+    	flex-direction: column;
+    	align-items: flex-start;
+	}
+	.margin-top{
+		margin-top:20px;
+		display: flex;
+    	align-items: center;
+	}
+	
+</style>
+</head>
+<body>
+<div class="text_compare">
+	<p>
+		One: 'Hi Mary.' Two: 'Oh, hi.'<br>
+One: 'How are you doing?'<br>
+Two: 'I'm doing alright. How about you?'<br>
+    One: 'Not too bad. The weather is great isn't it?'<br>
+    Two: 'Yes. It's absolutely beautiful today.'<br>
+One: 'I wish it was like this more frequently.'<br>
+Two: 'Me too.'<br>
+One: 'So where are you going now?'<br>
+Two: 'I'm going to meet a friend of mine at the department store.'<br>
+One: 'Going to do a little shopping?'<br>
+Two: 'Yeah, I have to buy some presents for my parents.'<br>
+One: 'What's the occasion?'<br>
+    Two: 'It's their anniversary.'<br>
+One: 'That's great. Well, you better get going. You don't want to be late.'<br>
+Two: 'I'll see you next time.'<br>
+One: 'Sure. Bye.'<br>
+	</p>
+	<p class="text">
+		One: 'Hi Mary.' Two: 'Oh, hi.'<br>
+One: 'How are you doing?'<br>
+Two: 'I'm doing alright. How about you?'<br>
+    One: 'Not too bad. The weather is great isn't it?'<br>
+    Two: 'Yes. It's absolutely beautiful today.'<br>
+One: 'I wish it was like this more frequently.'<br>
+Two: 'Me too.'<br>
+One: 'So where are you going now?'<br>
+Two: 'I'm going to meet a friend of mine at the department store.'<br>
+One: 'Going to do a little shopping?'<br>
+Two: 'Yeah, I have to buy some presents for my parents.'<br>
+One: 'What's the occasion?'<br>
+    Two: 'It's their anniversary.'<br>
+One: 'That's great. Well, you better get going. You don't want to be late.'<br>
+Two: 'I'll see you next time.'<br>
+One: 'Sure. Bye.'<br>
+	</p>
+</div>
+	
+	
+<form class = 'form' action = "#" method = "#">
+<fieldset class = "set">
+ <legend>Форма обратной связи</legend>
+ <label class = "form_label">Телефон<input class = "tel" type="text" required placeholder = "+7(000)000-0000">
+  <p class="error invisible">Телефон должен быть в формате +7(000)000-0000</p>
+ </label>
+ <label class = "form_label">E-mail<input class = "email" type="email" required placeholder = "mymail@mail.ru">
+ <p class="error invisible">Пожалуйста введите валидный емаил</p>
+ </label>
+ <label class = "form_label">Обращение</label>
+ <textarea class = "textarea" placeholder = "Мне не понравилось обслуживание"></textarea>
+</fieldset>
+<div class = "margin-top">
+	<a href = "#" type = "submit" class = "send">Отправить</a>
+	<p class="success invisible">Успешно отправили форму</p>
+	</div>
+</form>
+	
+<script>
+	class TextReplace{
+		constructor(container){
+			this.element = document.querySelector(container);
+			this.text = this.element.innerHTML;
+			this.replace();
+		}
+		replace(){
+			this.text = this.text.replace(/(\B'|'\B)/g, '"');
+			this.element.innerHTML = this.text;
+		}
+	}
+	
+	let xtext = new TextReplace(".text");
+//Валидатор формы
+	class Validate{
+		constructor(form){
+			this.tel = document.querySelector(form).querySelector('.tel');
+			this.email = document.querySelector(form).querySelector('.email');
+			this.submit = document.querySelector(form).querySelector('.send');
+			this.success = document.querySelector(form).querySelector('.success');
+			this.telPattern = /(\+\d)([(]\d{3}[)])(\d{3})(-)(\d{4})/;
+			this.emailPattern = /^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/;
+			this._addListener();
+		}
+		_addListener(){
+			this.submit.addEventListener('click', () => this.check(event));
+		}
+		check(){
+			this.submit.preventDefault;
+			let check_tel = this.checkField(this.tel, this.telPattern);
+			let check_email = this.checkField(this.email, this.emailPattern);
+			if (check_tel && check_email){
+				this.getSuccess();
+			//	
+			}
+			
+		}
+		checkField(field, pattern){
+			if(!field.value.match(pattern)){
+				field.classList.add("error_border");
+				field.parentElement.querySelector(".error").classList.remove("invisible");
+				return false;
+			} else{
+				field.classList.remove("error_border");
+				field.parentElement.querySelector(".error").classList.add("invisible");
+				return true;
+			};
+		}
+		getSuccess(){
+			console.log(this.success);
+			this.success.classList.remove("invisible");
+		}
+	}
+	
+	let xform = new Validate('.form');
+	
+	
+</script>	
+</body>
+</html>
