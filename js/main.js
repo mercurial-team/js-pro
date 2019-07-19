@@ -81,6 +81,11 @@ class Cart {
 			() => {
 				this._renderCart();
 			}
+		)
+		.then(
+			()=>{
+				this._calcTotalPrice();
+			}
 		);
 	}
 	addProductToCart(){
@@ -91,6 +96,7 @@ class Cart {
 			id_product: +event.target.dataset.id,
 			quantity: 1,
 		}
+		let newCartItem = new CartItem(newItem);
 		let pushMark = 1;
 		for (let el of this.allProduct){
 				if (el.id_product == +event.target.dataset.id){
@@ -101,10 +107,10 @@ class Cart {
 				} 
 		}
 		if (pushMark == 1){
-			this.allProduct.push(newItem);
-			block.insertAdjacentHTML('beforeend', this._renderCartItem(newItem));
+			this.allProduct.push(newCartItem);
+			block.insertAdjacentHTML('beforeend', newCartItem.renderCartItem(newItem));
 		}
-		
+		this._calcTotalPrice();
 		console.log(this.allProduct);
 	}
 	removeProductFromCart(){
@@ -119,13 +125,16 @@ class Cart {
 				}
 			}
 		}
+	this._calcTotalPrice();
 	console.log(this.allProduct);
 	}
 	setQuantity(item){
+		console.log(item);
 		const block = document.querySelector(this.container);
 		let all_items = block.querySelectorAll(`${this.container}_item`);
 		for (let el of all_items){
-			if (el.dataset.id == item.id_product){
+			console.log(`${el.dataset.id} ${item.id_product}`)
+			if (+el.dataset.id == +item.id_product){
 				el.querySelector(".cart_quantity").innerHTML = item.quantity;
 			}
 		}
@@ -133,13 +142,13 @@ class Cart {
 	_addEventListenerForBuyButtons(){
 		let prodbuy = document.querySelectorAll(this.buy_button);
 		for (let el of prodbuy){
-			el.onclick = this.addProductToCart.bind(this);
+			el.addEventListener('click', () => this.addProductToCart());
 		}
 	}
 	_addEventListenerForDelButtons(){
 		let prodDel = document.querySelectorAll(this.container);
 		for (let el of prodDel){
-			el.onclick = this.removeProductFromCart.bind(this);
+			el.addEventListener('click', () => this.removeProductFromCart());
 		}
 	}
 	_fetchCartProducts(){
@@ -154,27 +163,43 @@ class Cart {
 	_renderCart(){
 		const block = document.querySelector(this.container);
        for (let el of this.data.contents) {
-		    this.allProduct.push(el);
-			block.insertAdjacentHTML('beforeend', this._renderCartItem(el));
+		    const newItem = new CartItem(el);
+		    this.allProduct.push(newItem);
+			block.insertAdjacentHTML('beforeend', newItem.renderCartItem(el));
         }
 		this._addEventListenerForDelButtons();
 	}
-	_renderCartItem(item){
+	_calcTotalPrice(priceContainer = '.total_price'){
+		console.log(this.allProduct);
+		let TotalPrice = 0;
+		for (let el of this.allProduct){
+			TotalPrice += el.price*el.quantity;
+		}
+		document.querySelector(priceContainer).innerHTML = `Стоимость всего: ${TotalPrice}`;
+	}
+	
+
+}
+
+class CartItem{
+	constructor(el, img='https://placehold.it/50x50'){
+        this.product_name = el.product_name;
+        this.id_product = el.id_product;
+        this.price = el.price;
+        this.img = img;
+		this.quantity = 1;
+	}
+	renderCartItem(item){
 		return `<div class = "cart_item" data-id = "${item.id_product}">
-					<img src = "https://placehold.it/50x50">
+					<img src = "${this.img}">
 					<div class = "cart_info" data-id = "${item.id_product}">
 						<p>${item.product_name}</br>
 						Цена: ${item.price}</br>
 						Кол-во: <span class = "cart_quantity">${item.quantity}</span></p>
 					</div>
 					<a href = '#' class = "del_cart" data-id = "${item.id_product}">DEL</a>
-				</div>`;
+				</div>`;	
 	}
-	_calcTotalPrice(){
-		//В конце корзины нам наверняка потребуется общая стоимость
-	}
-	
-
 }
 
 let cart = new Cart();

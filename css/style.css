@@ -34,7 +34,8 @@
 	display:flex;
 	justify-content: center;
 	flex-wrap:wrap;
-	align-items:flex-start;
+	align-items: center;
+    flex-direction: column;
 }
 .product_image{
 	width:100%;
@@ -67,4 +68,36 @@
 }
 .btn-cart{
 	margin-right: 80px;
+}
+.total_price{
+	margin-right:20px;
+}
+.catalog{
+	display: flex;
+    justify-content: space-around;
+}
+
+.search button:before {
+  content: "\f002";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: black;
+}
+.search button{
+	border: none;
+  height: 42px;
+  width: 42px;
+  background-color: white;
+  cursor:pointer;
+}
+.search input{
+	border: none;
+    border-bottom: 1px solid black;
+}
+.no_items_cart{
+	padding: 20px 20px;
+}
+.no_items_catalog{
+	margin-top: 20px;
+    font-size: 34px;
 }
