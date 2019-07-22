@@ -11,48 +11,16 @@
 <body >
 <div class = "page">
 	<header class="top_header">
-		<div class="total_price">
-		</div>
-		<div class="cart_block">
-			<a href='#' class="btn-cart btn" type="button">Корзина</a>
-			<div class="cart">
-				<div class = "cart_item" v-for="el in cartProducts">
-					<img :src = "standart_product_img_cart">
-					<div class = "cart_info">
-						<p>{{el.product_name}}</p>
-						<p>Цена: {{el.price}}</p>
-						<p>Кол-во: <span class = "cart_quantity">{{el.quantity}}</span></p>
-					</div>
-					<a href = '#' class = "del_cart" @click.prevent="removeProductFromCart(el)">DEL</a>
-				</div>
-				<div class = "no_items_cart" v-if="CartEmpty">Нет товаров</div>
-			</div>
-		</div>
+        <cart ref="cart"></cart>
 	</header>
 	<main>
-		<div class="products">
-		
-			<form class="search">
-					<input type="text" v-model='searchLine' placeholder="Искать здесь...">
-					<button @click.prevent="filterGoods()" type="submit"></button>
-			</form>
-			
-			<div class="catalog">
-				<div class="product-item" v-for="el in filteredProducts" :key="el.id_product">
-					<img :src='standart_product_img' :alt='el.name' class="product_image">
-					<div class="desc">
-						<h3>{{el.product_name}}</h3>
-						<p>Цена: {{el.price}}</p>
-						<button class="buy-btn btn" @click = "addProductToCart(el)">Купить</button>
-					</div>
-				</div>
-				<div class = "no_items_catalog" v-if="CatalogEmpty">Нет товаров</div>
-			</div>
-		</div>
+        <products ref="products"></products>
 	</main>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/ProductComponent.js"></script>
+    <script src="js/CartComponent.js"></script>
 	<script src="js/main_vue.js"></script>
 	<!--<script src="js/main.js"></script>-->
 </body>
