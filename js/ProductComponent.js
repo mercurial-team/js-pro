@@ -1,11 +1,11 @@
 Vue.component('products', {
     data(){
         return {
-            searchLine: '',
 		    products: [],
             filteredProducts: [],
             standart_product_img: 'https://placehold.it/200x150',
             CatalogEmpty: false,
+			load_error: false,
         }
     },
     methods: {
@@ -18,10 +18,14 @@ Vue.component('products', {
 					this.filteredProducts.push(el);
                 }
 			})
-            .catch(error => console.log(error));
+            .catch(error => {
+			console.log(error);
+			this.load_error = true;
+			});
     	},
-        filterGoods(){
-         	const regexp = new RegExp(this.searchLine, 'i');
+        filterGoods(searchLine){
+			console.log('search');
+         	const regexp = new RegExp(searchLine, 'i');
          	this.filteredProducts = this.products.filter(el => regexp.test(el.product_name));
 			this.CheckIfCatalogEmpty();
 		},
@@ -33,12 +37,7 @@ Vue.component('products', {
         this.fetchProducts();
     },
     template: `<div class="products">
-		
-			<form class="search">
-					<input type="text" v-model='searchLine' placeholder="Искать здесь...">
-					<button @click.prevent="filterGoods()" type="submit"></button>
-			</form>
-			
+			<search @filterGoods = "filterGoods"></search>
 			<div class="catalog">
 				<product v-for="el of filteredProducts" 
                     :key="el.id_product"
@@ -47,6 +46,7 @@ Vue.component('products', {
                 </product>
 
 				<div class = "no_items_catalog" v-if="CatalogEmpty">Нет товаров</div>
+				<load_error v-if="load_error"></load_error>
 			</div>
 		</div>`
 });
@@ -62,3 +62,15 @@ Vue.component('product', {
 					</div>
 				</div>`
 })
+
+Vue.component('search',{
+	data(){
+		return {
+			searchLine: ''
+		}
+	},
+	template: `<form class="search">
+					<input type="text" v-model='searchLine' placeholder="Искать здесь...">
+					<button @click="$emit('filterGoods', searchLine)" type="submit"></button>
+			</form>`
+});
