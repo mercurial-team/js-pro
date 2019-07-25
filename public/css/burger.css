@@ -1,0 +1,5 @@
+
+.burgerCategory {
+	display:flex;
+	flex-direction: column;
+}
