@@ -1,3 +1,4 @@
+//Я затупил и неверно обновил репозиторий
 Vue.component('products', {
     data(){
         return {
