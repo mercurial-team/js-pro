@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Сеть Фастфудов "Быстрый бургер"</title>
+	<link rel="stylesheet" href="css/burger.css">
+</head>
+
+<body>
+	<div class="orderForm">
+		<div class="burgerCategory">
+			<h3>Выберите размер бургера</h3>
+			<div>
+				<input type="radio" id="largeburger" class = "size_input" name = "burger_opt" value="large">
+				<label for="largeburger">Большой бургер</label>
+			</div>
+			<div>
+				<input type="radio" id="smallburger" name = "burger_opt" 
+				class = "size_input"
+				value="small">
+				<label for="smallburger">Маленький бургер</label>
+			</div>
+		</div>
+		
+		<div class="burgerOptions">
+			<h3>С чем бургер</h3>
+			<div>
+				<input type="radio" id="cheese" name = "burger_opt2" 
+				class = "opt_input" value="cheese">
+				<label for="cheese">С сыром</label>
+			</div>
+			<div>
+				<input type="radio" id="salad" name = "burger_opt2"
+				class = "opt_input" value="salad">
+				<label for="salad">С салатом</label>
+			</div>
+			<div>
+				<input type="radio" id="Potato" name = "burger_opt2" class = "opt_input" value="Potato">
+				<label for="Potato">С картофелем</label>
+			</div>
+		</div>
+		
+		<div class="burgerAdds">
+			<h3>Доп. опции</h3>
+			<div>
+				<input type="checkbox" id="Seasoning" name = "burger_opt3" class = "top_input" value="Seasoning">
+				<label for="Seasoning">Посыпать приправой</label>
+			</div>
+			<div>
+				<input type="checkbox" id="Mayonnaise" name = "burger_opt3" class = "top_input" value="Mayonnaise">
+				<label for="Mayonnaise">Полить майонезом</label>
+			</div>
+		</div>
+		<div class="total">
+			<h3>Итого</h3>
+			<p class = "calorie">Калорий: 0</p>
+			<p class = "price">Цена: 0 руб</p>
+		</div>
+	</div>
+<script src="js/FastFud.js"></script>
+</body>
+
+</html>
